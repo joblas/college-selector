@@ -88,7 +88,7 @@ export default function App({ currentUser, onLogout }) {
             <Button 
               id="tour-advisor" 
               variant={showAI ? "primary" : "secondary"} 
-              onClick={() => setShowAI(!showAI)}
+              onClick={() => { console.log('Header AI button clicked'); setShowAI(!showAI); }}
               style={{ 
                 height: "36px", padding: "0 12px", borderRadius: "20px",
                 gap: "4px", fontSize: "12px", fontWeight: "600", whiteSpace: "nowrap"
@@ -315,7 +315,7 @@ export default function App({ currentUser, onLogout }) {
               </div>
             </div>
             <Button variant="secondary" onClick={() => { setModal(null); onLogout(); }} style={{ width: '100%' }}>
-              <LogOut size={18} /> Switch User
+              <LogOut size={18} /> Sign Out
             </Button>
           </div>
         </Modal>

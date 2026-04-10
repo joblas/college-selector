@@ -166,7 +166,7 @@ export default function Dashboard({ onSelectSchool, onOpenAI, onAddSchool }) {
           {nudges[0]?.text || "Keep adding schools to build your list!"}
         </p>
         <button 
-          onClick={onOpenAI}
+          onClick={() => { console.log('AI button clicked'); onOpenAI?.(); }}
           style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
             padding: "10px 18px", borderRadius: "10px",
