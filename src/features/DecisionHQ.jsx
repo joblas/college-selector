@@ -3,14 +3,13 @@ import { useAppContext } from '../hooks/useAppContext';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
-import { AIBtn } from '../components/Specialized';
 import { 
   Target, Award, DollarSign, Star, AlertCircle, 
   Check, X, BarChart3, TrendingUp, Trophy 
 } from 'lucide-react';
 
 export default function DecisionHQ({ onSelectSchool }) {
-  const { schools, schols, calcScore, getFinCalc, formatUSD, apiKey, ctx, CRITERIA } = useAppContext();
+  const { schools, schols, calcScore, getFinCalc, formatUSD, CRITERIA } = useAppContext();
 
   if (schools.length < 2) {
     return (
@@ -30,15 +29,20 @@ export default function DecisionHQ({ onSelectSchool }) {
   return (
     <div className="animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <h2 style={{ fontSize: "20px" }}>Decision Headquarters</h2>
-        <AIBtn 
-          ctx={ctx} 
-          apiKey={apiKey} 
-          label="Generate Full Decision Report" 
-          Icon={Trophy} 
-          prompt="Comprehensive report: #1 pick & why, ranking, financial comparison, risks, and final recommendation." 
-          onClick={() => {}} 
-        />
+        <h2 style={{ fontSize: "20px", fontWeight: "700" }}>Decision Headquarters</h2>
+        <button 
+          onClick={() => {}}
+          style={{
+            display: "flex", alignItems: "center", gap: "10px",
+            padding: "10px 16px",
+            borderRadius: "10px", border: "1px solid var(--border-color)",
+            background: "var(--primary-light)", color: "var(--primary)",
+            fontSize: "13px", fontWeight: "600", cursor: "pointer"
+          }}
+        >
+          <Trophy size={16} />
+          Generate Full Decision Report
+        </button>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>

@@ -5,12 +5,11 @@ import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { Input, Select } from '../components/Input';
-import { AIBtn } from '../components/Specialized';
 import { Award, Plus, Edit3, Trash2, CheckCircle, Search } from 'lucide-react';
 import { celebrate } from '../utils/celebrate';
 
-export default function Scholarships() {
-  const { schols, setSchols, formatUSD, apiKey, ctx } = useAppContext();
+export default function Scholarships({ onOpenAI }) {
+  const { schols, setSchols, formatUSD, profile } = useAppContext();
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ 
@@ -47,7 +46,7 @@ export default function Scholarships() {
     <div className="animate-fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "20px" }}>
         <div>
-          <h2 style={{ fontSize: "20px" }}>Scholarships</h2>
+          <h2 style={{ fontSize: "20px", fontWeight: "700" }}>Scholarships</h2>
           <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>Total Awarded: <strong style={{ color: "var(--success)" }}>{formatUSD(totAw)}</strong></p>
         </div>
         <Button onClick={() => setShowForm(true)} style={{ padding: "8px 14px" }}>
@@ -55,14 +54,19 @@ export default function Scholarships() {
         </Button>
       </div>
 
-      <AIBtn 
-        ctx={ctx} 
-        apiKey={apiKey} 
-        label="Search for Matching Scholarships" 
-        Icon={Search} 
-        prompt="Search for real scholarships matching my profile and schools. Suggest 3-5 high-probability ones." 
-        onClick={() => {}} 
-      />
+      <button 
+        onClick={() => {}}
+        style={{
+          display: "flex", alignItems: "center", gap: "10px",
+          width: "100%", padding: "12px 16px", marginBottom: "16px",
+          borderRadius: "10px", border: "1px solid var(--border-color)",
+          background: "var(--primary-light)", color: "var(--primary)",
+          fontSize: "13px", fontWeight: "600", cursor: "pointer"
+        }}
+      >
+        <Search size={16} />
+        Search for Matching Scholarships
+      </button>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {schols.length === 0 ? (

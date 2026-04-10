@@ -4,7 +4,7 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { Input, TextArea, Select } from '../components/Input';
-import { ScoreRing, AIBtn } from '../components/Specialized';
+import { ScoreRing } from '../components/Specialized';
 import { 
   X, Trash2, Edit3, DollarSign, Award, CheckCircle, 
   AlertCircle, BookOpen, Clock, FileText, BarChart3, 
@@ -12,10 +12,9 @@ import {
   MoreVertical, Plus, Check, Building
 } from 'lucide-react';
 
-export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete }) {
+export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete, onOpenAI }) {
   const { 
-    schols, calcScore, getFinCalc, formatUSD, 
-    apiKey, ctx, CRITERIA, FIN 
+    schols, calcScore, getFinCalc, formatUSD, CRITERIA, FIN 
   } = useAppContext();
   
   const [tab, setTab] = useState('score');
@@ -65,14 +64,19 @@ export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete }
       </div>
 
       <div style={{ marginBottom: "20px" }}>
-        <AIBtn 
-          ctx={ctx} 
-          apiKey={apiKey} 
-          label={`Deep Dive — ${s.name}`} 
-          Icon={Bot} 
-          prompt={`Thorough analysis of ${s.name}. Strengths, weaknesses, fit for my profile, and financial outlook.`} 
-          onClick={() => {}} 
-        />
+        <button 
+          onClick={() => {}}
+          style={{
+            display: "flex", alignItems: "center", gap: "10px",
+            width: "100%", padding: "12px 16px",
+            borderRadius: "10px", border: "1px solid var(--border-color)",
+            background: "var(--primary-light)", color: "var(--primary)",
+            fontSize: "13px", fontWeight: "600", cursor: "pointer"
+          }}
+        >
+          <Bot size={16} />
+          Deep Dive — {s.name}
+        </button>
       </div>
 
       {/* Navigation */}

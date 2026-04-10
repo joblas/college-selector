@@ -9,7 +9,7 @@ import { Dots } from '../components/Specialized';
 import { celebrateQuick } from '../utils/celebrate';
 
 export default function EssayWorkshop() {
-  const { profile, setProfile, ctx, apiKey } = useAppContext();
+  const { profile, setProfile } = useAppContext();
   const [essays, setEssays] = useState(profile.essays || []);
   const [selected, setSelected] = useState(null);
   const [suggestion, setSuggestion] = useState(null);
@@ -68,7 +68,7 @@ export default function EssayWorkshop() {
                "${selected.draft}"`
     };
 
-    const res = await callAI([{ role: 'user', content: prompts[type] }], ctx, apiKey);
+    const res = await callAI([{ role: 'user', content: prompts[type] }], { profile, schools: [], scholarships: [] });
     setSuggestion({ type, content: res });
     setLoading(false);
   };

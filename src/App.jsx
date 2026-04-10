@@ -157,7 +157,7 @@ export default function App() {
         </button>
 
         {activeTab === 'home' && !selSchool && (
-          <Dashboard onSelectSchool={setSelSchool} />
+          <Dashboard onSelectSchool={setSelSchool} onOpenAI={() => setShowAI(true)} />
         )}
 
         {selSchool && (

@@ -88,7 +88,17 @@ export const AppProvider = ({ children }) => {
     return Math.round((done / total) * 100);
   }, [schools, profile.essays, schols]);
 
-  const value = { schools, setSchools, schols, setSchols, weights, setWeights, profile, setProfile, ready, formatUSD, getFinCalc, calcScore, nudges, globalProgress, COLORS, CRITERIA };
+  const value = { 
+    schools, setSchools, schols, setSchols, weights, setWeights, 
+    profile, setProfile, ready, 
+    formatUSD, getFinCalc, calcScore, nudges, globalProgress, 
+    COLORS, CRITERIA 
+  };
+
+  // Expose setSchools globally for child components
+  if (typeof window !== 'undefined') {
+    window.__appContext = { setSchools };
+  }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -3,9 +3,9 @@ import { useAppContext } from '../hooks/useAppContext';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { ScoreRing, AIBtn } from '../components/Specialized';
-import { CheckCircle, DollarSign, Clock, Sparkles, AlertCircle, Info, Check, GraduationCap } from 'lucide-react';
+import { CheckCircle, DollarSign, Clock, Sparkles } from 'lucide-react';
 
-export default function Dashboard({ onSelectSchool }) {
+export default function Dashboard({ onSelectSchool, onOpenAI }) {
   const { schools, schols, calcScore, getFinCalc, formatUSD, nudges, globalProgress } = useAppContext();
 
   if (schools.length === 0) {
@@ -22,13 +22,19 @@ export default function Dashboard({ onSelectSchool }) {
         <p style={{ color: "var(--text-muted)", fontSize: "15px", marginBottom: "24px" }}>
           Add your first school to unlock your AI Admissions Roadmap.
         </p>
-        <AIBtn 
-          ctx={{}} 
-          label="Help me find a school" 
-          Icon={Sparkles} 
-          prompt="I'm just starting. Based on my profile, suggest 3 schools I should look into first." 
-          onClick={() => {}} 
-        />
+        <button 
+          onClick={onOpenAI}
+          style={{
+            display: "inline-flex", alignItems: "center", gap: "10px",
+            padding: "14px 24px", borderRadius: "12px",
+            background: "var(--primary)", color: "#fff", border: "none",
+            fontSize: "14px", fontWeight: "600", cursor: "pointer",
+            boxShadow: "0 4px 16px rgba(134, 59, 255, 0.3)"
+          }}
+        >
+          <Sparkles size={18} />
+          Help me find a school
+        </button>
       </div>
     );
   }
