@@ -26,3 +26,8 @@ dist-ssr
 # AI context
 .gemini
 .antigravity
+
+# Mempalace
+mempalace.yaml
+entities.json
+mempalace_api.py
