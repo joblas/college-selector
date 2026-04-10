@@ -62,7 +62,9 @@ export default function App() {
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }} 
             onClick={() => { setActiveTab('home'); setSelSchool(null); }}>
-            <div style={{ 
+            <div 
+              id="tour-welcome"
+              style={{ 
               width: "36px", height: "36px", borderRadius: "10px", 
               background: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center" 
             }}>
