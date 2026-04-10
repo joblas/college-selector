@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAppContext } from './hooks/useAppContext';
 import { 
   Home, User, PenLine, Target, Bot, 
-  Plus, GraduationCap, Search
+  Plus, GraduationCap, Search, Sparkles
 } from 'lucide-react';
 import { Button } from './components/Button';
 import { Modal } from './components/Modal';
