@@ -1,0 +1,9 @@
+name = "college-selector-ai"
+main = "llm-proxy.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+AI_PROVIDER = "gemini"
+
+[ai]
+binding = "AI"

@@ -10,7 +10,6 @@ export const AppProvider = ({ children }) => {
   const [profile, setProfile] = useLocalStorage('college_profile', {
     name: "Kaylani", gpa: "", state: "", major: "", ecs: "", awards: "", essays: []
   });
-  const [apiKey, setApiKey] = useLocalStorage('college_anthropic_key', '');
 
   const formatUSD = useCallback((v) => 
     (!v || isNaN(v)) ? "$0" : "$" + Number(v).toLocaleString(), 
@@ -83,7 +82,7 @@ export const AppProvider = ({ children }) => {
     return Math.round((done / total) * 100);
   }, [schools, profile.essays, schols]);
 
-  const value = { schools, setSchools, schols, setSchols, weights, setWeights, profile, setProfile, apiKey, setApiKey, formatUSD, getFinCalc, calcScore, nudges, globalProgress, COLORS, CRITERIA };
+  const value = { schools, setSchools, schols, setSchols, weights, setWeights, profile, setProfile, formatUSD, getFinCalc, calcScore, nudges, globalProgress, COLORS, CRITERIA };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

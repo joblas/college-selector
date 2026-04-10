@@ -22,7 +22,7 @@ import OnboardingTour from './components/OnboardingTour';
 export default function App() {
   const { 
     setSchools, profile, 
-    apiKey, setApiKey, ready, globalProgress 
+    ready, globalProgress 
   } = useAppContext();
 
   const [activeTab, setActiveTab] = useState('home');
@@ -152,16 +152,12 @@ export default function App() {
         <Modal title="Settings" onClose={() => setModal(null)} footer={
           <Button onClick={() => setModal(null)}>Close</Button>
         }>
-          <Input 
-            label="Anthropic API Key" 
-            type="password" 
-            placeholder="sk-ant-..." 
-            value={apiKey} 
-            onChange={(e) => setApiKey(e.target.value)} 
-          />
-          <p style={{ fontSize: "12px", color: "var(--text-muted)", background: "var(--bg-main)", padding: "12px", borderRadius: "8px" }}>
-            <strong>Security Info:</strong> Your API key is stored locally in your browser and is only sent directly to Anthropic's secure endpoints.
-          </p>
+          <div style={{ padding: "12px", background: "var(--bg-main)", borderRadius: "8px" }}>
+            <h3 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "8px" }}>AI Advisor</h3>
+            <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+              The AI advisor is powered by a secure backend proxy. No API key required from you — just start chatting!
+            </p>
+          </div>
         </Modal>
       )}
 

@@ -6,7 +6,7 @@ import { Dots } from '../components/Specialized';
 import { Bot, Send, X } from 'lucide-react';
 
 export default function ChatPanel({ onClose }) {
-  const { apiKey, ctx } = useAppContext();
+  const { ctx } = useAppContext();
   const [msgs, setMsgs] = useState([
     { role: "assistant", content: "Hey! I'm your AI advisor. Ask me anything about your current schools, finances, or essays." }
   ]);
@@ -26,17 +26,14 @@ export default function ChatPanel({ onClose }) {
     setInp("");
     setLoading(true);
 
-    // AI check logic handled in services/ai.js
-    
     try {
       const response = await callAI(
         newMsgs.map(m => ({ role: m.role, content: m.content })).slice(-10),
-        ctx,
-        apiKey
+        ctx
       );
       setMsgs(p => [...p, { role: "assistant", content: response }]);
     } catch {
-       setMsgs(p => [...p, { role: "assistant", content: "Sorry, I had trouble connecting. Check your API key or CORS settings." }]);
+       setMsgs(p => [...p, { role: "assistant", content: "Sorry, I had trouble connecting. Please try again." }]);
     } finally {
       setLoading(false);
     }
