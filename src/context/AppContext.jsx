@@ -1,10 +1,7 @@
-import React, { createContext, useContext, useEffect, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { CRITERIA, FIN, COLORS } from '../utils/constants';
-
-const AppContext = createContext();
-
-export const useAppContext = () => useContext(AppContext);
+import { AppContext } from '../context/AppContextInstance';
 
 export const AppProvider = ({ children }) => {
   const [schools, setSchools] = useLocalStorage('college_schools', []);

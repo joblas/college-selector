@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppContext } from './context/AppContext';
+import { useAppContext } from './hooks/useAppContext';
 import { 
   Home, User, Search, Award, Scale, PenLine, Target, Bot, 
   Settings, GraduationCap, X, ChevronRight, Plus

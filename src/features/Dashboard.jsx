@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../hooks/useAppContext';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { ScoreRing, AIBtn } from '../components/Specialized';

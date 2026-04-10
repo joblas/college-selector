@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../hooks/useAppContext';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
@@ -10,7 +10,7 @@ import { Award, Plus, Edit3, Trash2, CheckCircle, Search } from 'lucide-react';
 import { celebrate } from '../utils/celebrate';
 
 export default function Scholarships() {
-  const { schols, setSchols, formatUSD, apiKey, ctx, schools } = useAppContext();
+  const { schols, setSchols, formatUSD, apiKey, ctx } = useAppContext();
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ 

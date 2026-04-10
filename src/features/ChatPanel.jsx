@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../hooks/useAppContext';
 import { callAI } from '../services/ai';
 import { Button } from '../components/Button';
 import { Dots } from '../components/Specialized';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../hooks/useAppContext';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { TextArea, Input } from '../components/Input';

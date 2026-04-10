@@ -42,7 +42,7 @@ export const callAI = async (msgs, ctx, apiKey = "") => {
         return `AI Coach Error: ${d.error.message}`;
       }
       return d.content?.filter(b => b.type === "text").map(b => b.text).join("\n") || "No response.";
-    } catch (err) {
+    } catch {
       return "Network error. Please ensure you have an active internet connection and CORS is handled (proxy suggested for production).";
     }
   };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../hooks/useAppContext';
 import { Input, Select } from '../components/Input';
 import { Button } from '../components/Button';
 import { Modal } from '../components/Modal';
