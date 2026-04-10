@@ -55,7 +55,7 @@ export default function Scholarships() {
       </div>
 
       <button 
-        onClick={() => {}}
+        onClick={() => alert("Coming soon! Use the AI chat to find scholarships that match your profile.")}
         style={{
           display: "flex", alignItems: "center", gap: "10px",
           width: "100%", padding: "12px 16px", marginBottom: "16px",

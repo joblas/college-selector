@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from './hooks/useAppContext';
 import { 
   Home, User, PenLine, Target, Bot, 
-  Plus, GraduationCap, Search, Sparkles, LogOut, Users
+  Plus, GraduationCap, Search, Sparkles, LogOut, Users, Moon, Sun
 } from 'lucide-react';
 import { Button } from './components/Button';
 import { Modal } from './components/Modal';
@@ -34,8 +34,16 @@ export default function App({ currentUser, onLogout }) {
   const [showAI, setShowAI] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showRecs, setShowRecs] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('college_dark_mode') === 'true';
+  });
   const [modal, setModal] = useState(null);
   const [_headerExpanded] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('college_dark_mode', darkMode);
+  }, [darkMode]);
 
   if (!ready) {
     return (
@@ -122,6 +130,9 @@ export default function App({ currentUser, onLogout }) {
                   <Users size={18} /> {currentUser?.name || 'User'}
                 </Button>
               </div>
+              <Button variant="secondary" onClick={() => setDarkMode(!darkMode)} title={darkMode ? "Light mode" : "Dark mode"}>
+                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              </Button>
             </div>
           </div>
           
@@ -187,17 +198,16 @@ export default function App({ currentUser, onLogout }) {
             }}
             onDelete={() => {
               const { setSchools } = window.__appContext || {};
-              if (confirm(`Remove ${selSchool.name}?`)) {
-                if (setSchools) setSchools(p => p.filter(s => s.id !== selSchool.id));
-                setSelSchool(null);
-              }
+              if (setSchools) setSchools(p => p.filter(s => s.id !== selSchool.id));
+              setSelSchool(null);
             }}
+            onOpenAI={() => setShowAI(true)}
           />
         )}
 
         {activeTab === 'schol' && <Scholarships />}
         {activeTab === 'essays' && <EssayWorkshop />}
-        {activeTab === 'decide' && <DecisionHQ onSelectSchool={(s) => { setSelSchool(s); setActiveTab('home'); }} />}
+        {activeTab === 'decide' && <DecisionHQ onSelectSchool={(s) => { setSelSchool(s); setActiveTab('home'); }} onOpenAI={() => setShowAI(true)} />}
         {activeTab === 'profile' && <Profile />}
       </main>
 

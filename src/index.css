@@ -40,6 +40,37 @@
   --mobile-header-height: 56px;
 }
 
+/* Dark Mode */
+[data-theme="dark"] {
+  --primary: #a78bfa;
+  --primary-hover: #c4b5fd;
+  --primary-light: #2d2342;
+  
+  --secondary: #f0f0f5;
+  --secondary-light: #d1d1d8;
+  
+  --bg-main: #0f0f14;
+  --bg-card: #1a1a24;
+  --bg-input: #1a1a24;
+  
+  --text-main: #f0f0f5;
+  --text-muted: #a1a1aa;
+  --text-light: #71717a;
+  --text-on-primary: #0f0f14;
+  
+  --border-color: #27272a;
+  --border-focus: #3f3f46;
+  
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #818cf8;
+  
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
+}
+
 /* Base styles - Mobile First */
 * {
   box-sizing: border-box;

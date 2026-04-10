@@ -1,0 +1,13 @@
+{
+  "name": "college-selector",
+  "compatibility_date": "2026-04-10",
+  "pages": {
+    "compatibility_date": "2026-04-10",
+    "binding": [
+      {
+        "name": "AI",
+        "type": "ai"
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@ import {
   Check, X, BarChart3, TrendingUp, Trophy 
 } from 'lucide-react';
 
-export default function DecisionHQ({ onSelectSchool }) {
+export default function DecisionHQ({ onSelectSchool, onOpenAI }) {
   const { schools, schols, calcScore, getFinCalc, formatUSD, CRITERIA } = useAppContext();
 
   if (schools.length < 2) {
@@ -31,7 +31,7 @@ export default function DecisionHQ({ onSelectSchool }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <h2 style={{ fontSize: "20px", fontWeight: "700" }}>Decision Headquarters</h2>
         <button 
-          onClick={() => {}}
+          onClick={() => onOpenAI && onOpenAI()}
           style={{
             display: "flex", alignItems: "center", gap: "10px",
             padding: "10px 16px",

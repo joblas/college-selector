@@ -12,7 +12,7 @@ import {
   MoreVertical, Plus, Check, Building
 } from 'lucide-react';
 
-export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete }) {
+export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete, onOpenAI }) {
   const { 
     schols, calcScore, getFinCalc, formatUSD, CRITERIA, FIN 
   } = useAppContext();
@@ -65,7 +65,7 @@ export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete }
 
       <div style={{ marginBottom: "20px" }}>
         <button 
-          onClick={() => {}}
+          onClick={() => onOpenAI && onOpenAI()}
           style={{
             display: "flex", alignItems: "center", gap: "10px",
             width: "100%", padding: "12px 16px",

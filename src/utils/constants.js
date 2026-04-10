@@ -23,10 +23,14 @@ export const WEIGHTS = [
 ];
 
 export const FIN = [
-  { id: 'tuition', label: 'Tuition & Fees' },
-  { id: 'housing', label: 'Housing & Food' },
-  { id: 'books', label: 'Books & Supplies' },
-  { id: 'trans', label: 'Transportation' }
+  { id: 'tuition', label: 'Tuition & Fees', c: 'cost' },
+  { id: 'housing', label: 'Housing & Food', c: 'cost' },
+  { id: 'books', label: 'Books & Supplies', c: 'cost' },
+  { id: 'trans', label: 'Transportation', c: 'cost' },
+  { id: 'grants', label: 'Grants & Scholarships', c: 'aid' },
+  { id: 'faid', label: 'Financial Aid', c: 'aid' },
+  { id: 'loans', label: 'Student Loans', c: 'loan' },
+  { id: 'work', label: 'Work Study', c: 'aid' }
 ];
 
 export const COLORS = ["#f06449", "#5bc0eb", "#9bc53d", "#c3423f", "#212d40"];
