@@ -194,7 +194,7 @@ export default function App({ currentUser, onLogout }) {
         </button>
 
         {activeTab === 'home' && !selSchool && (
-          <Dashboard onSelectSchool={setSelSchool} onOpenAI={() => setShowAI(true)} />
+          <Dashboard onSelectSchool={setSelSchool} onOpenAI={() => setShowAI(true)} onAddSchool={() => setModal("addSchool")} />
         )}
 
         {selSchool && (

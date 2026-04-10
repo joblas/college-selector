@@ -3,7 +3,7 @@ import { useAppContext } from '../hooks/useAppContext';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { ScoreRing } from '../components/Specialized';
-import { CheckCircle, DollarSign, Clock, Sparkles, Trophy, Target, BookOpen, Award, Rocket, Star, Lightbulb } from 'lucide-react';
+import { CheckCircle, DollarSign, Clock, Sparkles, Trophy, Target, BookOpen, Award, Rocket, Star, Lightbulb, Plus } from 'lucide-react';
 
 const STEPS = [
   { id: 1, icon: Target, title: 'Add Schools', desc: 'Find your dream colleges', key: 'schools' },
@@ -12,7 +12,7 @@ const STEPS = [
   { id: 4, icon: Trophy, title: 'Make Decision', desc: 'Choose your winner', key: 'decision' },
 ];
 
-export default function Dashboard({ onSelectSchool, onOpenAI }) {
+export default function Dashboard({ onSelectSchool, onOpenAI, onAddSchool }) {
   const { schools, schols, calcScore, getFinCalc, formatUSD, nudges, globalProgress, profile } = useAppContext();
 
   const getGreeting = () => {
@@ -20,6 +20,10 @@ export default function Dashboard({ onSelectSchool, onOpenAI }) {
     if (hour < 12) return 'Good morning';
     if (hour < 17) return 'Good afternoon';
     return 'Good evening';
+  };
+
+  const handleAddSchool = () => {
+    if (onAddSchool) onAddSchool();
   };
 
   // Empty state - welcome flow
@@ -83,9 +87,18 @@ export default function Dashboard({ onSelectSchool, onOpenAI }) {
             <Rocket size={20} />
             Start with AI Recommendation
           </button>
-          <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-muted)" }}>
-            Or add schools manually using the + button below
-          </p>
+          <button 
+            onClick={handleAddSchool}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+              padding: "12px 20px", borderRadius: "12px",
+              background: "var(--bg-card)", color: "var(--text-main)", border: "1px solid var(--border-color)",
+              fontSize: "14px", fontWeight: "600", cursor: "pointer"
+            }}
+          >
+            <Plus size={18} />
+            Add School Manually
+          </button>
         </div>
       </div>
     );
