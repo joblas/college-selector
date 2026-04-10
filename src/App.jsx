@@ -43,7 +43,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-main)", color: "var(--text-main)", paddingBottom: "80px" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg-main)", color: "var(--text-main)" }}>
       <OnboardingTour activeTab={activeTab} />
 
       {/* Mobile Header - Collapsible */}
@@ -118,18 +118,20 @@ export default function App() {
       {/* Main Content */}
       <main style={{ padding: "16px", maxWidth: "1200px", margin: "0 auto" }}>
         {/* Mobile: Add School FAB */}
-        <Button 
+        <button 
           className="mobile-only"
           onClick={() => setModal("addSchool")}
           style={{
             position: "fixed", bottom: "80px", right: "16px",
             width: "56px", height: "56px", borderRadius: "50%",
+            background: "var(--primary)", border: "none",
             boxShadow: "0 4px 20px rgba(134, 59, 255, 0.4)",
-            zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center"
+            zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer", color: "#fff"
           }}
         >
           <Plus size={24} />
-        </Button>
+        </button>
 
         {activeTab === 'home' && !selSchool && (
           <Dashboard onSelectSchool={setSelSchool} />

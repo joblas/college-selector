@@ -105,6 +105,13 @@ button, a, .tap-target {
   }
 }
 
+/* Ensure mobile nav is hidden on desktop */
+@media (min-width: 768px) {
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
 h1, h2, h3, h4 {
   font-weight: 700;
   letter-spacing: -0.02em;
