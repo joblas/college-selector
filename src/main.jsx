@@ -1,48 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { AppProvider } from './context/AppContext'
 import { LoginScreen } from './components/LoginScreen'
 
-class ErrorBoundary extends React.Component {
-  constructor(props) { super(props); this.state = { hasError: false, error: null }; }
-  static getDerivedStateFromError(error) { return { hasError: true, error }; }
-  componentDidCatch(error, info) { console.error('React Error:', error, info); }
-  render() {
-    if (this.state.hasError) {
-      return <div style={{ padding: 40, textAlign: 'center' }}>
-        <h1>Something went wrong</h1>
-        <pre style={{ fontSize: 12, textAlign: 'left', maxWidth: '100%', overflow: 'auto' }}>
-          {this.state.error?.message || 'Unknown error'}
-        </pre>
-      </div>;
-    }
-    return this.props.children;
-  }
-}
-
 function Main() {
-  const storedUser = localStorage.getItem('college_current_user');
-  let initialUser = null;
-  if (storedUser) {
+  const [currentUser, setCurrentUser] = useState(() => {
     try {
-      const user = JSON.parse(storedUser);
-      const users = JSON.parse(localStorage.getItem('college_users') || '[]');
-      if (users.find(u => u.id === user.id)) {
-        initialUser = user;
+      const stored = localStorage.getItem('college_current_user');
+      if (stored) {
+        const user = JSON.parse(stored);
+        const users = JSON.parse(localStorage.getItem('college_users') || '[]');
+        if (users.find(u => u.id === user.id)) {
+          return user;
+        }
       }
-    } catch { /* ignore */ }
-  }
-  const [currentUser, setCurrentUser] = useState(initialUser);
-  const [loading, setLoading] = useState(!initialUser);
-
-  React.useEffect(() => {
-    if (loading) {
-      const timer = setTimeout(() => setLoading(false), 100);
-      return () => clearTimeout(timer);
+    } catch (e) {
+      console.log('No stored user');
     }
-  }, [loading]);
+    return null;
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLogin = (user) => {
     setCurrentUser(user);
@@ -55,9 +40,20 @@ function Main() {
   };
 
   if (loading) {
-    return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <GraduationCap size={48} className="animate-pulse" style={{ color: 'var(--primary)' }} />
-    </div>;
+    return (
+      <div style={{ 
+        height: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        background: '#f7f6f3'
+      }}>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#863bff" strokeWidth="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
+        </svg>
+      </div>
+    );
   }
 
   if (!currentUser) {
@@ -71,12 +67,8 @@ function Main() {
   );
 }
 
-import { GraduationCap } from 'lucide-react';
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <Main />
-    </ErrorBoundary>
+    <Main />
   </React.StrictMode>,
 )
