@@ -1,4 +1,4 @@
-const WORKER_URL = 'https://college-selector-ai.your-account.workers.dev';
+const WORKER_URL = 'https://college-selector-ai.joe-184.workers.dev';
 
 export const callAI = async (msgs, ctx, apiKey = "") => {
   const prunedCtx = {

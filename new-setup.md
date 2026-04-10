@@ -34,31 +34,38 @@ Then introduce yourself and ask the three setup questions in a single message �
 ## After They Answer
 
 **If they have a project context file:**
+
 - Ask them to confirm the filename so you can reference it going forward.
 - Add the Three Man Team snippet to it — paste, do not overwrite:
-  ```
+
+  ```markdown
   ## Three Man Team
   Available agents: Arch (Architect), Bob (Builder), Richard (Reviewer)
   ```
 
 **If they don't have a project context file:**
+
 - Create `CLAUDE.md` in the project root with this structure:
-  ```
+
+  ```markdown
   ## Project
   [Work with the user to fill this in — what it does, who uses it, the stack]
 
   ## Three Man Team
   Available agents: Arch (Architect), Bob (Builder), Richard (Reviewer)
   ```
+
 - Ask them: what are we building? Fill in the Project section together.
 
 **If they want to rename the team:**
+
 - Update ARCHITECT.md, BUILDER.md, and REVIEWER.md — replace the default names (Arch, Bob, Richard) with the new names.
 - **Important:** Replace whole names only. Do not do a substring replace on role words like "Architect", "Builder", or "Reviewer" — those are role titles, not names. Only replace the shorthand names (Arch, Bob, Richard).
 - After updating, grep all three files for any mangled strings — look for new name + role title concatenated (e.g. "Billyitect", "Raylder", "Chriswer"). Fix any found before moving on.
 - Confirm the new names back to the user.
 
 **If they like the names:**
+
 - Keep going.
 
 ---
@@ -76,6 +83,7 @@ If they want RTK — give them the install command and explain both options:
 > This installs RTK globally — it will work across all your projects automatically. No per-project setup needed.
 >
 > Once installed, verify it's working:
+>
 > ```bash
 > rtk --version
 > rtk gain
