@@ -32,7 +32,7 @@ export default function App() {
   const [selSchool, setSelSchool] = useState(null);
   const [showAI, setShowAI] = useState(false);
   const [modal, setModal] = useState(null);
-  const [headerExpanded, setHeaderExpanded] = useState(true);
+  const [_headerExpanded] = useState(true);
 
   if (!ready) {
     return (
@@ -49,7 +49,7 @@ export default function App() {
       {/* Mobile Header - Collapsible */}
       <header className="glass mobile-header" style={{ 
         position: "sticky", top: 0, zIndex: 100,
-        height: headerExpanded ? "auto" : "56px",
+        height: _headerExpanded ? "auto" : "56px",
         borderBottom: "1px solid var(--border-color)" 
       }}>
         <div style={{ 
@@ -201,8 +201,7 @@ export default function App() {
             onClick={() => { setActiveTab(n.id); setSelSchool(null); }}
             style={{
               display: "flex", flexDirection: "column", alignItems: "center",
-              gap: "4px", padding: "8px 16px", border: "none", background: "transparent",
-              cursor: "pointer", borderRadius: "12px",
+              gap: "4px", padding: "8px 16px", border: "none", cursor: "pointer", borderRadius: "12px",
               background: activeTab === n.id ? "var(--primary-light)" : "transparent",
               color: activeTab === n.id ? "var(--primary)" : "var(--text-muted)",
               transition: "all 0.2s"

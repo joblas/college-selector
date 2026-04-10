@@ -13,7 +13,6 @@ export function Modal({ children, onClose, title, footer, mobileFullScreen }) {
       alignItems: "center",
       justifyContent: "center",
       zIndex: 1000,
-      padding: "20px",
       animation: "fadeIn 0.2s ease-out",
       padding: mobileFullScreen ? "0" : "20px"
     }} onClick={onClose}>

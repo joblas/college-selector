@@ -12,7 +12,7 @@ import {
   MoreVertical, Plus, Check, Building
 } from 'lucide-react';
 
-export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete, onOpenAI }) {
+export default function SchoolDetails({ school: s, onClose, onUpdate, onDelete }) {
   const { 
     schols, calcScore, getFinCalc, formatUSD, CRITERIA, FIN 
   } = useAppContext();

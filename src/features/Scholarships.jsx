@@ -8,8 +8,8 @@ import { Input, Select } from '../components/Input';
 import { Award, Plus, Edit3, Trash2, CheckCircle, Search } from 'lucide-react';
 import { celebrate } from '../utils/celebrate';
 
-export default function Scholarships({ onOpenAI }) {
-  const { schols, setSchols, formatUSD, profile } = useAppContext();
+export default function Scholarships() {
+  const { schols, setSchols, formatUSD } = useAppContext();
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState(null);
   const [form, setForm] = useState({ 

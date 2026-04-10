@@ -4,6 +4,7 @@ import { callAI } from '../services/ai';
 import { Button } from '../components/Button';
 import { Dots } from '../components/Specialized';
 import { Bot, Send, X, ArrowLeft } from 'lucide-react';
+import { celebrate } from '../utils/celebrate';
 
 export default function ChatPanel({ onClose }) {
   const { ctx } = useAppContext();
@@ -34,6 +35,11 @@ export default function ChatPanel({ onClose }) {
       );
       console.log('AI response:', response);
       setMsgs(p => [...p, { role: "assistant", content: response }]);
+      
+      const comparisonKeywords = ['compared', 'comparison', 'best fit', 'top choice', 'recommend', 'ranking', 'ranked'];
+      if (comparisonKeywords.some(kw => response.toLowerCase().includes(kw))) {
+        celebrate();
+      }
     } catch (err) {
       console.error('Chat error:', err);
       setMsgs(p => [...p, { role: "assistant", content: "Sorry, I had trouble connecting. Please try again." }]);
