@@ -1,0 +1,3 @@
+[submodule ".claude/skills/three-man-team"]
+	path = .claude/skills/three-man-team
+	url = https://github.com/russelleNVy/three-man-team.git
