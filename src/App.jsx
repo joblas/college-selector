@@ -61,11 +61,12 @@ export default function App({ currentUser, onLogout }) {
       <header className="glass mobile-header" style={{ 
         position: "sticky", top: 0, zIndex: 100,
         height: _headerExpanded ? "auto" : "56px",
-        borderBottom: "1px solid var(--border-color)" 
+        borderBottom: "1px solid var(--border-color)",
+        overflow: "hidden"
       }}>
         <div style={{ 
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "12px 16px", gap: "12px"
+          padding: "12px 16px", gap: "12px", flexWrap: "nowrap"
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }} 
             onClick={() => { setActiveTab('home'); setSelSchool(null); }}>
@@ -82,32 +83,32 @@ export default function App({ currentUser, onLogout }) {
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 1, minWidth: 0 }}>
             {/* Mobile: AI Chat toggle */}
             <Button 
               id="tour-advisor" 
               variant={showAI ? "primary" : "secondary"} 
               onClick={() => setShowAI(!showAI)}
               style={{ 
-                height: "36px", padding: "0 14px", borderRadius: "20px",
-                gap: "6px", fontSize: "13px", fontWeight: "600"
+                height: "36px", padding: "0 12px", borderRadius: "20px",
+                gap: "4px", fontSize: "12px", fontWeight: "600", whiteSpace: "nowrap"
               }}
             >
               <Bot size={16} />
-              <span className="mobile-only">AI Chat</span>
+              <span className="mobile-only">Chat</span>
             </Button>
           </div>
         </div>
 
         {/* Expandable Header Content - Desktop only */}
         <div className="desktop-only" style={{ padding: "0 24px 16px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "16px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "16px", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <h2 style={{ fontSize: "28px", fontWeight: "800", letterSpacing: "-0.02em" }}>Welcome, {profile.name || "Kaylani"}</h2>
               <p style={{ color: "var(--text-muted)", fontSize: "14px", marginTop: "4px" }}>Here is your admissions roadmap today.</p>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px", padding: "12px 16px", background: "var(--bg-card)", borderRadius: "12px", border: "1px solid var(--border-color)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "16px", padding: "12px 16px", background: "var(--bg-card)", borderRadius: "12px", border: "1px solid var(--border-color)", flexShrink: 0 }}>
                 <div>
                   <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em" }}>Progress</span>
                   <p style={{ fontSize: "20px", fontWeight: "800", color: "var(--primary)" }}>{globalProgress}%</p>
@@ -116,23 +117,25 @@ export default function App({ currentUser, onLogout }) {
                   <div style={{ width: "100%", height: `${globalProgress}%`, background: "var(--primary)", borderRadius: "4px", marginTop: "auto" }} />
                 </div>
               </div>
-              <Button id="tour-add-school" onClick={() => setModal("addSchool")}>
-                <Plus size={18} /> Add School
-              </Button>
-              <Button variant="secondary" onClick={() => setShowSearch(true)}>
-                <Search size={18} /> Search
-              </Button>
-              <Button variant="secondary" onClick={() => setShowRecs(true)}>
-                <Sparkles size={18} /> For You
-              </Button>
-              <div style={{ position: 'relative' }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                <Button id="tour-add-school" onClick={() => setModal("addSchool")}>
+                  <Plus size={18} /> Add School
+                </Button>
+                <Button variant="secondary" onClick={() => setShowSearch(true)}>
+                  <Search size={18} /> Search
+                </Button>
+                <Button variant="secondary" onClick={() => setShowRecs(true)}>
+                  <Sparkles size={18} /> For You
+                </Button>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginLeft: "auto" }}>
                 <Button variant="secondary" onClick={() => setModal("userMenu")}>
                   <Users size={18} /> {currentUser?.name || 'User'}
                 </Button>
+                <Button variant="secondary" onClick={() => setDarkMode(!darkMode)} title={darkMode ? "Light mode" : "Dark mode"}>
+                  {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                </Button>
               </div>
-              <Button variant="secondary" onClick={() => setDarkMode(!darkMode)} title={darkMode ? "Light mode" : "Dark mode"}>
-                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-              </Button>
             </div>
           </div>
           
@@ -233,8 +236,8 @@ export default function App({ currentUser, onLogout }) {
               transition: "all 0.2s"
             }}
           >
-            <n.Icon size={20} strokeWidth={2.5} />
-            <span style={{ fontSize: "11px", fontWeight: "600" }}>{n.l}</span>
+            <n.Icon size={22} strokeWidth={2.5} />
+            <span style={{ fontSize: "12px", fontWeight: "600" }}>{n.l}</span>
           </button>
         ))}
       </nav>
