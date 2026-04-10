@@ -27,13 +27,16 @@ export default function ChatPanel({ onClose }) {
     setLoading(true);
 
     try {
+      console.log('Sending to AI:', text);
       const response = await callAI(
         newMsgs.map(m => ({ role: m.role, content: m.content })).slice(-10),
         ctx
       );
+      console.log('AI response:', response);
       setMsgs(p => [...p, { role: "assistant", content: response }]);
-    } catch {
-       setMsgs(p => [...p, { role: "assistant", content: "Sorry, I had trouble connecting. Please try again." }]);
+    } catch (err) {
+      console.error('Chat error:', err);
+      setMsgs(p => [...p, { role: "assistant", content: "Sorry, I had trouble connecting. Please try again." }]);
     } finally {
       setLoading(false);
     }

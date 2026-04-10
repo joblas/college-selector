@@ -88,9 +88,16 @@ export const AppProvider = ({ children }) => {
     return Math.round((done / total) * 100);
   }, [schools, profile.essays, schols]);
 
+  // Context object for AI calls
+  const ctx = useMemo(() => ({
+    profile: { gpa: profile.gpa, major: profile.major, state: profile.state },
+    schools: schools.map(s => ({ name: s.name, status: s.status, score: calcScore(s), net: getFinCalc(s, schols).net })),
+    scholarships: schols.filter(s => s.status === 'Awarded').map(s => ({ name: s.name, amt: s.amount }))
+  }), [profile, schools, schols, calcScore, getFinCalc]);
+
   const value = { 
     schools, setSchools, schols, setSchols, weights, setWeights, 
-    profile, setProfile, ready, 
+    profile, setProfile, ready, ctx,
     formatUSD, getFinCalc, calcScore, nudges, globalProgress, 
     COLORS, CRITERIA 
   };
