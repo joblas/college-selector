@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { GraduationCap, Users, Plus, ArrowRight, LogIn } from 'lucide-react';
 import { Button } from './Button';
 
+const API_URL = 'http://localhost:8766';
+
 export function LoginScreen({ onLogin }) {
   const storedUsers = JSON.parse(localStorage.getItem('college_users') || '[]');
   const [users, setUsers] = useState(storedUsers);
@@ -12,7 +14,7 @@ export function LoginScreen({ onLogin }) {
   const [newPin, setNewPin] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (userId) => {
+  const handleLogin = async (userId) => {
     if (pin.length < 4) {
       setError('PIN must be at least 4 digits');
       return;
@@ -25,17 +27,34 @@ export function LoginScreen({ onLogin }) {
     }
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!newName.trim() || newPin.length < 4) {
       setError('Name required and PIN must be 4+ digits');
       return;
     }
+
+    let dbUser = null;
+    try {
+      const res = await fetch(`${API_URL}/users/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName.trim(), pin: newPin })
+      });
+      if (res.ok) {
+        dbUser = await res.json();
+        dbUser = dbUser.user;
+      }
+    } catch {
+      console.log('DB not available, using local only');
+    }
+
     const newUser = {
-      id: Date.now().toString(),
+      id: dbUser?.id?.toString() || Date.now().toString(),
       name: newName.trim(),
       pin: newPin,
       created: new Date().toISOString()
     };
+    
     const updated = [...users, newUser];
     setUsers(updated);
     localStorage.setItem('college_users', JSON.stringify(updated));

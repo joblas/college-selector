@@ -5,39 +5,59 @@ import './index.css'
 import { AppProvider } from './context/AppContext'
 import { LoginScreen } from './components/LoginScreen'
 
-function Main() {
-  const [currentUser, setCurrentUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem('college_current_user');
-      if (stored) {
-        const user = JSON.parse(stored);
-        const users = JSON.parse(localStorage.getItem('college_users') || '[]');
-        if (users.find(u => u.id === user.id)) {
-          return user;
-        }
-      }
-    } catch (e) {
-      console.log('No stored user');
-    }
-    return null;
-  });
+const API_URL = 'http://localhost:8766'
 
-  const [loading, setLoading] = useState(true);
+function Main() {
+  const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 50);
-    return () => clearTimeout(timer);
-  }, []);
+    const init = async () => {
+      try {
+        const stored = localStorage.getItem('college_current_user')
+        if (stored) {
+          const user = JSON.parse(stored)
+          const users = JSON.parse(localStorage.getItem('college_users') || '[]')
+          if (users.find(u => u.id === user.id)) {
+            setCurrentUser(user)
+            await syncFromDB(user.id)
+          }
+        }
+      } catch (e) {
+        console.log('No stored user')
+      }
+      setLoading(false)
+    }
+    init()
+  }, [])
 
-  const handleLogin = (user) => {
-    setCurrentUser(user);
-    localStorage.setItem('college_current_user', JSON.stringify(user));
-  };
+  const syncFromDB = async (userId) => {
+    try {
+      const res = await fetch(`${API_URL}/sync?userId=${userId}`)
+      if (res.ok) {
+        const data = await res.json()
+        if (data.schools?.length) localStorage.setItem(`college_${userId}_schools`, JSON.stringify(data.schools))
+        if (data.scholarships?.length) localStorage.setItem(`college_${userId}_schols`, JSON.stringify(data.scholarships))
+        if (data.profile) localStorage.setItem(`college_${userId}_profile`, JSON.stringify(data.profile))
+        if (data.weights) localStorage.setItem(`college_${userId}_weights`, JSON.stringify(data.weights))
+        console.log('Synced from DB')
+      }
+    } catch (e) {
+      console.log('DB sync failed, using localStorage')
+    }
+  }
+
+  const handleLogin = async (user) => {
+    localStorage.setItem('college_current_user', JSON.stringify(user))
+    localStorage.setItem('college_users', JSON.stringify([...new Set([...JSON.parse(localStorage.getItem('college_users') || '[]'), user])]))
+    setCurrentUser(user)
+    await syncFromDB(user.id)
+  }
 
   const handleLogout = () => {
-    setCurrentUser(null);
-    localStorage.removeItem('college_current_user');
-  };
+    setCurrentUser(null)
+    localStorage.removeItem('college_current_user')
+  }
 
   if (loading) {
     return (
@@ -46,25 +66,25 @@ function Main() {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        background: '#f7f6f3'
+        background: 'var(--bg-main)'
       }}>
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#863bff" strokeWidth="2">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2">
           <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
           <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
         </svg>
       </div>
-    );
+    )
   }
 
   if (!currentUser) {
-    return <LoginScreen onLogin={handleLogin} />;
+    return <LoginScreen onLogin={handleLogin} />
   }
 
   return (
     <AppProvider currentUser={currentUser}>
       <App currentUser={currentUser} onLogout={handleLogout} />
     </AppProvider>
-  );
+  )
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
