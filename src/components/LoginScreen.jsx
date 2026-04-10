@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GraduationCap, Users, Plus, ArrowRight } from 'lucide-react';
+import { GraduationCap, Users, Plus, ArrowRight, LogIn } from 'lucide-react';
 import { Button } from './Button';
 
 export function LoginScreen({ onLogin }) {
@@ -110,16 +110,18 @@ export function LoginScreen({ onLogin }) {
                   )}
                   {selectedUser !== user.id && (
                     <Button variant="secondary" onClick={() => { setSelectedUser(user.id); setPin(''); setError(''); }} style={{ width: '100%' }}>
-                      Select
+                      Sign In
                     </Button>
                   )}
                 </div>
               ))}
             </div>
           ) : (
-            <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '20px' }}>
-              No users yet. Create one to get started!
-            </p>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>
+                Welcome! Create an account to get started.
+              </p>
+            </div>
           )}
           
           {error && (
@@ -128,11 +130,21 @@ export function LoginScreen({ onLogin }) {
             </p>
           )}
 
+          {users.length > 0 && (
+            <Button 
+              variant="ghost"
+              onClick={() => { setShowCreate(true); setError(''); }} 
+              style={{ width: '100%', marginTop: '16px' }}
+            >
+              <Plus size={18} /> Create New Account
+            </Button>
+          )}
+          
           <Button 
             onClick={() => { setShowCreate(true); setError(''); }} 
-            style={{ width: '100%', marginTop: '16px' }}
+            style={{ width: '100%', marginTop: users.length > 0 ? '8px' : '16px' }}
           >
-            <Plus size={20} /> Create New User
+            <Plus size={20} /> {users.length === 0 ? 'Create Account' : 'Add Another User'}
           </Button>
         </div>
       ) : (
@@ -142,7 +154,7 @@ export function LoginScreen({ onLogin }) {
             border: '1px solid var(--border-color)'
           }}>
             <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '20px', textAlign: 'center' }}>
-              Create New User
+              {users.length === 0 ? 'Create Your Account' : 'Add New User'}
             </h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
