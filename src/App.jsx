@@ -106,6 +106,26 @@ export default function App() {
           <div style={{ width: "100%", height: "6px", background: "var(--border-color)", borderRadius: "10px", overflow: "hidden" }}>
             <div style={{ width: `${globalProgress}%`, height: "100%", background: "var(--primary)", transition: "width 0.8s" }} />
           </div>
+          
+          {/* Desktop Navigation */}
+          <nav style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+            {[
+              { id: "home", l: "Dashboard" },
+              { id: "schol", l: "Scholarships" },
+              { id: "essays", l: "Essay Workshop" },
+              { id: "decide", l: "Decision HQ" },
+              { id: "profile", l: "Profile" },
+            ].map(n => (
+              <Button 
+                key={n.id} 
+                variant={activeTab === n.id ? "secondary" : "ghost"}
+                onClick={() => { setActiveTab(n.id); setSelSchool(null); }}
+                style={{ padding: "8px 16px", gap: "6px" }}
+              >
+                <span style={{ fontSize: "13px", fontWeight: "600" }}>{n.l}</span>
+              </Button>
+            ))}
+          </nav>
         </div>
       </header>
 
