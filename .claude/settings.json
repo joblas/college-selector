@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": {
+          "tool": "write_to_file",
+          "path": ".*\\.env.*"
+        },
+        "hooks": [
+          {
+            "type": "block",
+            "message": "Direct editing of .env files is restricted. Please use an environment manager or handle secrets securely."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": {
+          "tool": "write_to_file",
+          "path": ".*\\.(js|jsx|ts|tsx)$"
+        },
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run lint -- --fix",
+            "ignoreError": true
+          }
+        ]
+      }
+    ]
+  }
+}
