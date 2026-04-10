@@ -18,7 +18,6 @@ import Profile from './features/Profile';
 import ChatPanel from './features/ChatPanel';
 import AddSchoolForm from './features/AddSchoolForm';
 import EssayWorkshop from './features/EssayWorkshop';
-import OnboardingTour from './components/OnboardingTour';
 
 const NAV_ITEMS = [
   { id: "home", Icon: Home, l: "Home" },
@@ -48,7 +47,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg-main)", color: "var(--text-main)" }}>
-      <OnboardingTour activeTab={activeTab} />
+      {/* OnboardingTour temporarily disabled */}
 
       {/* Mobile Header - Collapsible */}
       <header className="glass mobile-header" style={{ 
