@@ -88,27 +88,29 @@ export default function App() {
 
         {/* Expandable Header Content - Desktop only */}
         <div className="desktop-only" style={{ padding: "0 24px 16px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "16px" }}>
             <div>
-              <h2 style={{ fontSize: "24px", fontWeight: "800" }}>Welcome, {profile.name || "Kaylani"}</h2>
-              <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Your admissions roadmap</p>
+              <h2 style={{ fontSize: "28px", fontWeight: "800", letterSpacing: "-0.02em" }}>Welcome, {profile.name || "Kaylani"}</h2>
+              <p style={{ color: "var(--text-muted)", fontSize: "14px", marginTop: "4px" }}>Here is your admissions roadmap today.</p>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <div style={{ textAlign: "right" }}>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: "600" }}>Progress</span>
-                <p style={{ fontSize: "18px", fontWeight: "800", color: "var(--primary)" }}>{globalProgress}%</p>
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "16px", padding: "12px 16px", background: "var(--bg-card)", borderRadius: "12px", border: "1px solid var(--border-color)" }}>
+                <div>
+                  <span style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.05em" }}>Progress</span>
+                  <p style={{ fontSize: "20px", fontWeight: "800", color: "var(--primary)" }}>{globalProgress}%</p>
+                </div>
+                <div style={{ width: "8px", height: "40px", background: "var(--border-color)", borderRadius: "4px" }}>
+                  <div style={{ width: "100%", height: `${globalProgress}%`, background: "var(--primary)", borderRadius: "4px", marginTop: "auto" }} />
+                </div>
               </div>
               <Button id="tour-add-school" onClick={() => setModal("addSchool")}>
                 <Plus size={18} /> Add School
               </Button>
             </div>
           </div>
-          <div style={{ width: "100%", height: "6px", background: "var(--border-color)", borderRadius: "10px", overflow: "hidden" }}>
-            <div style={{ width: `${globalProgress}%`, height: "100%", background: "var(--primary)", transition: "width 0.8s" }} />
-          </div>
           
           {/* Desktop Navigation */}
-          <nav style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+          <nav style={{ display: "flex", gap: "4px", paddingTop: "8px", borderTop: "1px solid var(--border-color)" }}>
             {[
               { id: "home", l: "Dashboard" },
               { id: "schol", l: "Scholarships" },
@@ -120,7 +122,7 @@ export default function App() {
                 key={n.id} 
                 variant={activeTab === n.id ? "secondary" : "ghost"}
                 onClick={() => { setActiveTab(n.id); setSelSchool(null); }}
-                style={{ padding: "8px 16px", gap: "6px" }}
+                style={{ padding: "10px 18px", gap: "6px" }}
               >
                 <span style={{ fontSize: "13px", fontWeight: "600" }}>{n.l}</span>
               </Button>
@@ -136,21 +138,22 @@ export default function App() {
       </div>
 
       {/* Main Content */}
-      <main style={{ padding: "16px", maxWidth: "1200px", margin: "0 auto" }}>
+      <main style={{ padding: "24px", maxWidth: "1200px", margin: "0 auto" }}>
         {/* Mobile: Add School FAB */}
         <button 
           className="mobile-only"
           onClick={() => setModal("addSchool")}
+          aria-label="Add School"
           style={{
-            position: "fixed", bottom: "80px", right: "16px",
-            width: "56px", height: "56px", borderRadius: "50%",
+            position: "fixed", bottom: "90px", right: "20px",
+            width: "60px", height: "60px", borderRadius: "50%",
             background: "var(--primary)", border: "none",
-            boxShadow: "0 4px 20px rgba(134, 59, 255, 0.4)",
+            boxShadow: "0 6px 24px rgba(134, 59, 255, 0.45)",
             zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "pointer", color: "#fff"
+            cursor: "pointer", color: "#fff", transition: "transform 0.2s, box-shadow 0.2s"
           }}
         >
-          <Plus size={24} />
+          <Plus size={26} />
         </button>
 
         {activeTab === 'home' && !selSchool && (
