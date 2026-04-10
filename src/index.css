@@ -1,8 +1,8 @@
 :root {
   /* Color Palette - Premium Professional */
-  --primary: #f06449; /* Original theme color */
-  --primary-hover: #d9533a;
-  --primary-light: #fef2f0;
+  --primary: #863bff;
+  --primary-hover: #6b2fd4;
+  --primary-light: #f3edff;
   
   --secondary: #1a1f36;
   --secondary-light: #2d334d;
@@ -31,18 +31,22 @@
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
   --shadow-md: 0 4px 12px rgba(26,31,54,0.04);
   --shadow-lg: 0 10px 25px rgba(26,31,54,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
   
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --font-main: 'Sora', system-ui, -apple-system, sans-serif;
+  
+  /* Mobile safe areas */
+  --mobile-nav-height: 64px;
+  --mobile-header-height: 56px;
 }
 
+/* Base styles - Mobile First */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -51,6 +55,54 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   overflow-x: hidden;
+  /* Prevent horizontal scroll on mobile */
+  overscroll-behavior-x: none;
+}
+
+/* Prevent pull-to-refresh on mobile */
+body {
+  overscroll-behavior: contain;
+}
+
+/* Touch-friendly tap targets */
+button, a, .tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Mobile-first responsive breakpoints */
+@media (min-width: 768px) {
+  :root {
+    --mobile-nav-height: 0px;
+    --mobile-header-height: 72px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 1024px) {
+  :root {
+    --mobile-header-height: 72px;
+  }
+}
+
+/* Desktop only styles */
+@media (min-width: 1024px) {
+  .desktop-only {
+    display: block;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+
+/* Mobile only */
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: flex !important;
+  }
 }
 
 h1, h2, h3, h4 {

@@ -2,7 +2,7 @@ import React from 'react';
 import { X } from 'lucide-react';
 import { Button } from './Button';
 
-export function Modal({ children, onClose, title, footer }) {
+export function Modal({ children, onClose, title, footer, mobileFullScreen }) {
   return (
     <div style={{
       position: "fixed",
@@ -14,17 +14,19 @@ export function Modal({ children, onClose, title, footer }) {
       justifyContent: "center",
       zIndex: 1000,
       padding: "20px",
-      animation: "fadeIn 0.2s ease-out"
+      animation: "fadeIn 0.2s ease-out",
+      padding: mobileFullScreen ? "0" : "20px"
     }} onClick={onClose}>
       <div style={{
         background: "#fff",
         width: "100%",
-        maxWidth: "500px",
-        borderRadius: "var(--radius-lg)",
+        maxWidth: mobileFullScreen ? "100%" : "500px",
+        height: mobileFullScreen ? "100%" : "auto",
+        maxHeight: mobileFullScreen ? "100%" : "90vh",
+        borderRadius: mobileFullScreen ? "0" : "var(--radius-lg)",
         boxShadow: "var(--shadow-lg)",
         display: "flex",
         flexDirection: "column",
-        maxHeight: "90vh",
         overflow: "hidden"
       }} onClick={e => e.stopPropagation()}>
         <div style={{
@@ -32,10 +34,13 @@ export function Modal({ children, onClose, title, footer }) {
           borderBottom: "1px solid var(--border-color)",
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center"
+          alignItems: "center",
+          flexShrink: 0
         }}>
-          <h3 style={{ margin: 0, fontSize: "16px" }}>{title}</h3>
-          <Button variant="icon" onClick={onClose}><X size={20} /></Button>
+          <h3 style={{ margin: 0, fontSize: "17px", fontWeight: "700" }}>{title}</h3>
+          <Button variant="icon" onClick={onClose} style={{ 
+            width: "36px", height: "36px", borderRadius: "50%" 
+          }}><X size={20} /></Button>
         </div>
         
         <div style={{ padding: "20px", overflowY: "auto", flex: 1 }}>
@@ -48,7 +53,8 @@ export function Modal({ children, onClose, title, footer }) {
             borderTop: "1px solid var(--border-color)",
             display: "flex",
             justifyContent: "flex-end",
-            gap: "10px"
+            gap: "10px",
+            flexShrink: 0
           }}>
             {footer}
           </div>

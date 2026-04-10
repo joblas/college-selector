@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useAppContext } from './hooks/useAppContext';
 import { 
-  Home, User, Search, Award, Scale, PenLine, Target, Bot, 
-  Settings, GraduationCap, X, ChevronRight, Plus
+  Home, User, PenLine, Target, Bot, 
+  Plus, GraduationCap
 } from 'lucide-react';
 import { Button } from './components/Button';
 import { Modal } from './components/Modal';
-import { Input } from './components/Input';
 
 // Import features
 import Dashboard from './features/Dashboard';
@@ -19,149 +18,218 @@ import AddSchoolForm from './features/AddSchoolForm';
 import EssayWorkshop from './features/EssayWorkshop';
 import OnboardingTour from './components/OnboardingTour';
 
+const NAV_ITEMS = [
+  { id: "home", Icon: Home, l: "Home" },
+  { id: "schol", Icon: Target, l: "Decisions" },
+  { id: "essays", Icon: PenLine, l: "Essays" },
+  { id: "profile", Icon: User, l: "Profile" },
+];
+
 export default function App() {
-  const { 
-    setSchools, profile, 
-    ready, globalProgress 
-  } = useAppContext();
+  const { profile, ready, globalProgress } = useAppContext();
 
   const [activeTab, setActiveTab] = useState('home');
   const [selSchool, setSelSchool] = useState(null);
   const [showAI, setShowAI] = useState(false);
   const [modal, setModal] = useState(null);
-
-  const NAV = [
-    { id: "home", Icon: Home, l: "Dashboard" },
-    { id: "schol", Icon: Award, l: "Scholarships" },
-    { id: "essays", Icon: PenLine, l: "Essay Workshop" },
-    { id: "decide", Icon: Target, l: "Decision HQ" },
-    { id: "profile", Icon: User, l: "Profile" },
-  ];
+  const [headerExpanded, setHeaderExpanded] = useState(true);
 
   if (!ready) {
     return (
-      <div className="flex-center" style={{ height: "100vh" }}>
+      <div className="flex-center" style={{ height: "100vh", background: "var(--bg-main)" }}>
         <GraduationCap size={48} className="animate-pulse" style={{ color: "var(--primary)" }} />
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-main)", color: "var(--text-main)" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg-main)", color: "var(--text-main)", paddingBottom: "80px" }}>
       <OnboardingTour activeTab={activeTab} />
 
-      {/* Premium Header */}
-      <header className="glass" style={{ 
-        position: "sticky", top: 0, zIndex: 100, height: "72px", 
-        display: "flex", alignItems: "center", justifyContent: "space-between", 
-        padding: "0 24px", borderBottom: "1px solid var(--border-color)" 
+      {/* Mobile Header - Collapsible */}
+      <header className="glass mobile-header" style={{ 
+        position: "sticky", top: 0, zIndex: 100,
+        height: headerExpanded ? "auto" : "56px",
+        borderBottom: "1px solid var(--border-color)" 
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", cursor: "pointer" }} onClick={() => { setActiveTab('home'); setSelSchool(null); }}>
-          <GraduationCap size={28} style={{ color: "var(--primary)" }} />
-          <div>
-            <h1 id="tour-welcome" style={{ fontSize: "16px", fontWeight: "800", letterSpacing: "-0.01em" }}>College Selector</h1>
-            <p style={{ fontSize: "10px", color: "var(--text-muted)", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.05em" }}>AI Advisory Suite</p>
+        <div style={{ 
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "12px 16px", gap: "12px"
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }} 
+            onClick={() => { setActiveTab('home'); setSelSchool(null); }}>
+            <div style={{ 
+              width: "36px", height: "36px", borderRadius: "10px", 
+              background: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center" 
+            }}>
+              <GraduationCap size={20} style={{ color: "white" }} />
+            </div>
+            <div className="mobile-only">
+              <span style={{ fontSize: "15px", fontWeight: "700" }}>College Selector</span>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {/* Mobile: AI Chat toggle */}
+            <Button 
+              id="tour-advisor" 
+              variant={showAI ? "primary" : "secondary"} 
+              onClick={() => setShowAI(!showAI)}
+              style={{ 
+                height: "36px", padding: "0 14px", borderRadius: "20px",
+                gap: "6px", fontSize: "13px", fontWeight: "600"
+              }}
+            >
+              <Bot size={16} />
+              <span className="mobile-only">AI Chat</span>
+            </Button>
           </div>
         </div>
 
-        {/* Global Progress Tracking */}
-        <div id="tour-progress" style={{ flex: 1, maxWidth: "300px", margin: "0 40px", display: "flex", flexDirection: "column", gap: "6px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", fontWeight: "700", color: "var(--text-muted)", textTransform: "uppercase" }}>
-            <span>Roadmap Progress</span>
-            <span style={{ color: "var(--primary)" }}>{globalProgress}%</span>
+        {/* Expandable Header Content - Desktop only */}
+        <div className="desktop-only" style={{ padding: "0 24px 16px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+            <div>
+              <h2 style={{ fontSize: "24px", fontWeight: "800" }}>Welcome, {profile.name || "Kaylani"}</h2>
+              <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Your admissions roadmap</p>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ textAlign: "right" }}>
+                <span style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: "600" }}>Progress</span>
+                <p style={{ fontSize: "18px", fontWeight: "800", color: "var(--primary)" }}>{globalProgress}%</p>
+              </div>
+              <Button id="tour-add-school" onClick={() => setModal("addSchool")}>
+                <Plus size={18} /> Add School
+              </Button>
+            </div>
           </div>
           <div style={{ width: "100%", height: "6px", background: "var(--border-color)", borderRadius: "10px", overflow: "hidden" }}>
-            <div style={{ width: `${globalProgress}%`, height: "100%", background: "var(--primary)", transition: "width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)" }} />
+            <div style={{ width: `${globalProgress}%`, height: "100%", background: "var(--primary)", transition: "width 0.8s" }} />
           </div>
         </div>
-
-        <nav style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-          {NAV.map(n => (
-            <Button 
-              key={n.id} 
-              variant={activeTab === n.id ? "secondary" : "ghost"}
-              onClick={() => { setActiveTab(n.id); setSelSchool(null); }}
-              id={n.id === 'profile' ? 'tour-profile' : undefined}
-              style={{ padding: "8px 12px", gap: "6px" }}
-            >
-              <n.Icon size={16} />
-              <span style={{ fontSize: "13px", fontWeight: "600" }}>{n.l}</span>
-            </Button>
-          ))}
-          <div style={{ width: "1px", height: "24px", background: "var(--border-color)", margin: "0 12px" }} />
-          <Button variant="ghost" onClick={() => setModal("settings")} style={{ width: "36px", height: "36px", padding: 0, borderRadius: "50%" }}>
-            <Settings size={18} />
-          </Button>
-          <Button id="tour-advisor" variant={showAI ? "primary" : "ghost"} onClick={() => setShowAI(!showAI)} style={{ width: "36px", height: "36px", padding: 0, borderRadius: "50%" }}>
-            <Bot size={18} />
-          </Button>
-        </nav>
       </header>
 
-      {/* Main Content Area */}
-      <div style={{ display: "flex", width: "100%", maxWidth: "1250px", margin: "0 auto" }}>
-        <main style={{ 
-          flex: 1, padding: "32px 24px", 
-          transition: "var(--transition)",
-          marginRight: showAI ? "370px" : "0" 
+      {/* Mobile Welcome Bar */}
+      <div className="mobile-only" style={{ padding: "16px 16px 8px" }}>
+        <h2 style={{ fontSize: "20px", fontWeight: "700" }}>Welcome, {profile.name || "Kaylani"}!</h2>
+        <p style={{ color: "var(--text-muted)", fontSize: "13px", marginTop: "2px" }}>{globalProgress}% complete</p>
+      </div>
+
+      {/* Main Content */}
+      <main style={{ padding: "16px", maxWidth: "1200px", margin: "0 auto" }}>
+        {/* Mobile: Add School FAB */}
+        <Button 
+          className="mobile-only"
+          onClick={() => setModal("addSchool")}
+          style={{
+            position: "fixed", bottom: "80px", right: "16px",
+            width: "56px", height: "56px", borderRadius: "50%",
+            boxShadow: "0 4px 20px rgba(134, 59, 255, 0.4)",
+            zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center"
+          }}
+        >
+          <Plus size={24} />
+        </Button>
+
+        {activeTab === 'home' && !selSchool && (
+          <Dashboard onSelectSchool={setSelSchool} />
+        )}
+
+        {selSchool && (
+          <SchoolDetails 
+            school={selSchool} 
+            onClose={() => setSelSchool(null)} 
+            onUpdate={(updated) => {
+              const { setSchools } = window.__appContext || {};
+              if (setSchools) setSchools(p => p.map(s => s.id === updated.id ? updated : s));
+              setSelSchool(updated);
+            }}
+            onDelete={() => {
+              const { setSchools } = window.__appContext || {};
+              if (confirm(`Remove ${selSchool.name}?`)) {
+                if (setSchools) setSchools(p => p.filter(s => s.id !== selSchool.id));
+                setSelSchool(null);
+              }
+            }}
+          />
+        )}
+
+        {activeTab === 'schol' && <Scholarships />}
+        {activeTab === 'essays' && <EssayWorkshop />}
+        {activeTab === 'decide' && <DecisionHQ onSelectSchool={(s) => { setSelSchool(s); setActiveTab('home'); }} />}
+        {activeTab === 'profile' && <Profile />}
+      </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="mobile-nav" style={{
+        position: "fixed", bottom: 0, left: 0, right: 0,
+        height: "var(--mobile-nav-height)",
+        background: "rgba(255, 255, 255, 0.95)",
+        backdropFilter: "blur(20px)",
+        borderTop: "1px solid var(--border-color)",
+        display: "flex", justifyContent: "space-around", alignItems: "center",
+        zIndex: 1000, padding: "0 8px", paddingBottom: "env(safe-area-inset-bottom, 8px)"
+      }}>
+        {NAV_ITEMS.map(n => (
+          <button
+            key={n.id}
+            onClick={() => { setActiveTab(n.id); setSelSchool(null); }}
+            style={{
+              display: "flex", flexDirection: "column", alignItems: "center",
+              gap: "4px", padding: "8px 16px", border: "none", background: "transparent",
+              cursor: "pointer", borderRadius: "12px",
+              background: activeTab === n.id ? "var(--primary-light)" : "transparent",
+              color: activeTab === n.id ? "var(--primary)" : "var(--text-muted)",
+              transition: "all 0.2s"
+            }}
+          >
+            <n.Icon size={20} strokeWidth={2.5} />
+            <span style={{ fontSize: "11px", fontWeight: "600" }}>{n.l}</span>
+          </button>
+        ))}
+      </nav>
+
+      {/* AI Chat Panel - Full screen modal on mobile */}
+      {showAI && (
+        <div className="mobile-only" style={{
+          position: "fixed", inset: 0, zIndex: 2000,
+          background: "var(--bg-main)"
         }}>
-          {activeTab === 'home' && !selSchool && (
-            <div className="animate-fade-in">
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "32px" }}>
-                <div>
-                  <h2 style={{ fontSize: "28px", fontWeight: "800", letterSpacing: "-0.02em" }}>Welcome, {profile.name || "Kaylani"}</h2>
-                  <p style={{ color: "var(--text-muted)", fontSize: "15px", marginTop: "4px" }}>Here is your admissions roadmap today.</p>
-                </div>
-                <Button id="tour-add-school" onClick={() => setModal("addSchool")} className="shadow-lg">
-                  <Plus size={18} /> Add School
-                </Button>
-              </div>
-              <Dashboard onSelectSchool={setSelSchool} />
-            </div>
-          )}
+          <ChatPanel onClose={() => setShowAI(false)} />
+        </div>
+      )}
 
-          {selSchool && (
-            <SchoolDetails 
-              school={selSchool} 
-              onClose={() => setSelSchool(null)} 
-              onUpdate={(updated) => {
-                setSchools(p => p.map(s => s.id === updated.id ? updated : s));
-                setSelSchool(updated);
-              }}
-              onDelete={() => {
-                if (confirm(`Remove ${selSchool.name}?`)) {
-                  setSchools(p => p.filter(s => s.id !== selSchool.id));
-                  setSelSchool(null);
-                }
-              }}
-            />
-          )}
-
-          {activeTab === 'schol' && <Scholarships />}
-          {activeTab === 'essays' && <EssayWorkshop />}
-          {activeTab === 'decide' && <DecisionHQ onSelectSchool={(s) => { setSelSchool(s); setActiveTab('home'); }} />}
-          {activeTab === 'profile' && <Profile />}
-        </main>
-
-        {/* Floating AI Chat Panel */}
+      {/* AI Chat - Side panel on desktop */}
+      <div className="desktop-only">
         {showAI && <ChatPanel onClose={() => setShowAI(false)} />}
       </div>
 
-      {/* Modals */}
+      {/* Modals - Full screen on mobile */}
       {modal === "settings" && (
-        <Modal title="Settings" onClose={() => setModal(null)} footer={
-          <Button onClick={() => setModal(null)}>Close</Button>
-        }>
-          <div style={{ padding: "12px", background: "var(--bg-main)", borderRadius: "8px" }}>
-            <h3 style={{ fontSize: "14px", fontWeight: "700", marginBottom: "8px" }}>AI Advisor</h3>
-            <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-              The AI advisor is powered by a secure backend proxy. No API key required from you — just start chatting!
+        <Modal 
+          title="Settings" 
+          onClose={() => setModal(null)}
+          mobileFullScreen
+          footer={<Button onClick={() => setModal(null)}>Close</Button>}
+        >
+          <div style={{ padding: "16px", background: "var(--bg-main)", borderRadius: "12px" }}>
+            <h3 style={{ fontSize: "15px", fontWeight: "700", marginBottom: "8px" }}>AI Advisor</h3>
+            <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
+              The AI advisor is powered by a secure backend. No API key required!
             </p>
           </div>
         </Modal>
       )}
 
-      {modal === "addSchool" && <AddSchoolForm onClose={() => setModal(null)} />}
+      {modal === "addSchool" && (
+        <Modal 
+          title="Add School" 
+          onClose={() => setModal(null)}
+          mobileFullScreen
+        >
+          <AddSchoolForm onClose={() => setModal(null)} />
+        </Modal>
+      )}
     </div>
   );
 }

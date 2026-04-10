@@ -3,12 +3,12 @@ import { useAppContext } from '../hooks/useAppContext';
 import { callAI } from '../services/ai';
 import { Button } from '../components/Button';
 import { Dots } from '../components/Specialized';
-import { Bot, Send, X } from 'lucide-react';
+import { Bot, Send, X, ArrowLeft } from 'lucide-react';
 
 export default function ChatPanel({ onClose }) {
   const { ctx } = useAppContext();
   const [msgs, setMsgs] = useState([
-    { role: "assistant", content: "Hey! I'm your AI advisor. Ask me anything about your current schools, finances, or essays." }
+    { role: "assistant", content: "Hey! I'm your AI advisor. Ask me anything about your colleges, finances, or essays." }
   ]);
   const [inp, setInp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,69 +46,118 @@ export default function ChatPanel({ onClose }) {
   ];
 
   return (
-    <div className="glass" style={{ 
-      width: "350px", height: "calc(100vh - 100px)", position: "fixed", right: "20px", bottom: "20px",
-      display: "flex", flexDirection: "column", borderRadius: "var(--radius-lg)", overflow: "hidden",
-      boxShadow: "var(--shadow-lg)", zIndex: 1000, border: "1px solid var(--border-color)"
+    <div style={{ 
+      height: "100%", display: "flex", flexDirection: "column",
+      background: "#fff"
     }}>
-      <div style={{ padding: "12px 16px", background: "var(--secondary)", color: "#fff", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Bot size={20} style={{ color: "var(--primary)" }} />
-          <strong style={{ fontSize: "14px" }}>AI Coach</strong>
+      {/* Header */}
+      <div style={{ 
+        padding: "12px 16px", background: "var(--secondary)", color: "#fff", 
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        flexShrink: 0, paddingBottom: "calc(12px + env(safe-area-inset-top, 0px))",
+        paddingTop: "16px"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Bot size={22} style={{ color: "var(--primary)" }} />
+          <div>
+            <strong style={{ fontSize: "15px", fontWeight: "700" }}>AI Coach</strong>
+            <p style={{ fontSize: "11px", opacity: 0.7 }}>Your college advisor</p>
+          </div>
         </div>
-        <Button variant="icon" onClick={onClose} style={{ color: "rgba(255,255,255,0.6)" }}><X size={18} /></Button>
+        <Button variant="icon" onClick={onClose} style={{ 
+          color: "rgba(255,255,255,0.8)", width: "36px", height: "36px" 
+        }}>
+          <X size={22} />
+        </Button>
       </div>
 
-      <div style={{ flex: 1, overflowY: "auto", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+      {/* Messages */}
+      <div style={{ 
+        flex: 1, overflowY: "auto", padding: "16px", display: "flex", 
+        flexDirection: "column", gap: "12px", background: "var(--bg-main)"
+      }}>
         {msgs.map((m, i) => (
           <div key={i} style={{ 
-            display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", gap: "8px",
-            alignItems: "flex-start"
+            display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start", 
+            gap: "8px", alignItems: "flex-start"
           }}>
-            {m.role === "assistant" && <Bot size={16} style={{ marginTop: "8px", color: "var(--primary)", flexShrink: 0 }} />}
+            {m.role === "assistant" && (
+              <div style={{ 
+                width: "28px", height: "28px", borderRadius: "50%", 
+                background: "var(--primary)", display: "flex", alignItems: "center", 
+                justifyContent: "center", flexShrink: 0, marginTop: "4px"
+              }}>
+                <Bot size={14} style={{ color: "#fff" }} />
+              </div>
+            )}
             <div style={{ 
-              maxWidth: "80%", padding: "10px 14px", borderRadius: m.role === "user" ? "20px 20px 4px 20px" : "20px 20px 20px 4px",
-              background: m.role === "user" ? "var(--primary)" : "var(--bg-main)",
+              maxWidth: "75%", padding: "12px 16px", 
+              borderRadius: m.role === "user" ? "20px 20px 4px 20px" : "20px 20px 20px 4px",
+              background: m.role === "user" ? "var(--primary)" : "#fff",
               color: m.role === "user" ? "#fff" : "var(--text-main)",
-              fontSize: "13px", lineHeight: "1.6", boxShadow: "var(--shadow-sm)"
+              fontSize: "14px", lineHeight: "1.5", boxShadow: "var(--shadow-sm)",
+              border: m.role === "assistant" ? "1px solid var(--border-color)" : "none"
             }}>
-              {m.content.split('\n').map((line, j) => <p key={j} style={{ margin: "2px 0" }}>{line}</p>)}
+              {m.content.split('\n').map((line, j) => (
+                <p key={j} style={{ margin: "2px 0" }}>{line}</p>
+              ))}
             </div>
           </div>
         ))}
         {loading && (
           <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <Bot size={16} style={{ color: "var(--primary)" }} />
-            <div style={{ padding: "8px 14px", background: "var(--bg-main)", borderRadius: "20px" }}><Dots /></div>
+            <div style={{ 
+              width: "28px", height: "28px", borderRadius: "50%", 
+              background: "var(--primary)", display: "flex", alignItems: "center", 
+              justifyContent: "center"
+            }}>
+              <Bot size={14} style={{ color: "#fff" }} />
+            </div>
+            <div style={{ padding: "10px 16px", background: "#fff", borderRadius: "20px", boxShadow: "var(--shadow-sm)" }}>
+              <Dots />
+            </div>
           </div>
         )}
         <div ref={endRef} />
       </div>
 
-      <div style={{ padding: "12px", borderTop: "1px solid var(--border-color)", background: "#fff" }}>
-        <div style={{ display: "flex", gap: "4px", marginBottom: "8px", overflowX: "auto" }}>
+      {/* Input */}
+      <div style={{ 
+        padding: "12px 16px", borderTop: "1px solid var(--border-color)", 
+        background: "#fff", paddingBottom: "calc(12px + env(safe-area-inset-bottom, 8px))"
+      }}>
+        <div style={{ display: "flex", gap: "6px", marginBottom: "10px", overflowX: "auto" }}>
           {SUGGESTIONS.map((s, i) => (
             <button key={i} onClick={() => { setInp(s.p); }} style={{ 
-              whiteSpace: "nowrap", padding: "4px 10px", borderRadius: "10px", fontSize: "11px", 
-              background: "var(--bg-main)", border: "1px solid var(--border-color)", cursor: "pointer"
+              whiteSpace: "nowrap", padding: "6px 12px", borderRadius: "16px", fontSize: "12px", 
+              background: "var(--primary-light)", border: "none", cursor: "pointer",
+              color: "var(--primary)", fontWeight: "600"
             }}>
               {s.l}
             </button>
           ))}
         </div>
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: "flex", gap: "10px" }}>
           <input 
             style={{ 
-              flex: 1, padding: "10px 14px", border: "1.5px solid var(--border-color)", borderRadius: "var(--radius-md)", 
-              fontSize: "13px", outline: "none"
+              flex: 1, padding: "14px 16px", border: "2px solid var(--border-color)", 
+              borderRadius: "24px", fontSize: "15px", outline: "none",
+              minHeight: "48px"
             }}
             placeholder="Ask me anything..."
             value={inp}
             onChange={e => setInp(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && send()}
           />
-          <Button onClick={send} disabled={loading} style={{ width: "40px", height: "40px", padding: 0 }}>
-            <Send size={18} />
+          <Button 
+            onClick={send} 
+            disabled={loading || !inp.trim()} 
+            style={{ 
+              width: "48px", height: "48px", padding: 0, borderRadius: "50%",
+              flexShrink: 0
+            }}
+          >
+            <Send size={20} />
           </Button>
         </div>
       </div>
