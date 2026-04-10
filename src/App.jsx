@@ -103,7 +103,7 @@ export default function App({ currentUser, onLogout }) {
         {/* Expandable Header Content - Desktop only */}
         <div className="desktop-only" style={{ padding: "0 24px 16px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "16px", flexWrap: "wrap", gap: "16px" }}>
-            <div>
+            <div style={{ minWidth: "200px" }}>
               <h2 style={{ fontSize: "28px", fontWeight: "800", letterSpacing: "-0.02em" }}>Welcome, {profile.name || "Kaylani"}</h2>
               <p style={{ color: "var(--text-muted)", fontSize: "14px", marginTop: "4px" }}>Here is your admissions roadmap today.</p>
             </div>
@@ -168,7 +168,14 @@ export default function App({ currentUser, onLogout }) {
       </div>
 
       {/* Main Content */}
-      <main style={{ padding: "24px", maxWidth: "1200px", margin: "0 auto" }}>
+      <main 
+        className="main-content"
+        style={{ 
+          padding: "24px", 
+          maxWidth: "1200px", 
+          margin: "0 auto",
+          minHeight: "calc(100vh - var(--mobile-header-height) - var(--mobile-nav-height) - 48px)"
+      }}>
         {/* Mobile: Add School FAB */}
         <button 
           className="mobile-only"
