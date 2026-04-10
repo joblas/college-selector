@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAppContext } from './hooks/useAppContext';
 import { 
   Home, User, PenLine, Target, Bot, 
-  Plus, GraduationCap, Search, Sparkles
+  Plus, GraduationCap, Search, Sparkles, LogOut, Users
 } from 'lucide-react';
 import { Button } from './components/Button';
 import { Modal } from './components/Modal';
@@ -26,7 +26,7 @@ const NAV_ITEMS = [
   { id: "profile", Icon: User, l: "Profile" },
 ];
 
-export default function App() {
+export default function App({ currentUser, onLogout }) {
   const { profile, ready, globalProgress } = useAppContext();
 
   const [activeTab, setActiveTab] = useState('home');
@@ -117,6 +117,11 @@ export default function App() {
               <Button variant="secondary" onClick={() => setShowRecs(true)}>
                 <Sparkles size={18} /> For You
               </Button>
+              <div style={{ position: 'relative' }}>
+                <Button variant="secondary" onClick={() => setModal("userMenu")}>
+                  <Users size={18} /> {currentUser?.name || 'User'}
+                </Button>
+              </div>
             </div>
           </div>
           
@@ -275,6 +280,25 @@ export default function App() {
 
       {showRecs && (
         <Recommendations onClose={() => setShowRecs(false)} />
+      )}
+
+      {modal === "userMenu" && (
+        <Modal title="Account" onClose={() => setModal(null)}>
+          <div style={{ padding: '20px 0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'var(--primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Users size={24} style={{ color: 'var(--primary)' }} />
+              </div>
+              <div>
+                <p style={{ fontWeight: '700', fontSize: '18px' }}>{currentUser?.name}</p>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Signed in</p>
+              </div>
+            </div>
+            <Button variant="secondary" onClick={() => { setModal(null); onLogout(); }} style={{ width: '100%' }}>
+              <LogOut size={18} /> Switch User
+            </Button>
+          </div>
+        </Modal>
       )}
     </div>
   );

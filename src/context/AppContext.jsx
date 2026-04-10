@@ -3,18 +3,29 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import { CRITERIA, FIN, COLORS } from '../utils/constants';
 import { AppContext } from '../context/AppContextInstance';
 
-export const AppProvider = ({ children }) => {
+const getUserKey = (userId, key) => `college_${userId}_${key}`;
+
+export const AppProvider = ({ children, currentUser }) => {
   const [ready, setReady] = useState(false);
-  const [schools, setSchools] = useLocalStorage('college_schools', []);
-  const [schols, setSchols] = useLocalStorage('college_schols', []);
-  const [weights, setWeights] = useLocalStorage('college_weights', {});
-  const [profile, setProfile] = useLocalStorage('college_profile', {
-    name: "Kaylani", gpa: "", state: "", major: "", ecs: "", awards: "", essays: []
+  
+  const userId = currentUser?.id || 'default';
+  
+  const [schools, setSchools] = useLocalStorage(getUserKey(userId, 'schools'), []);
+  const [schols, setSchols] = useLocalStorage(getUserKey(userId, 'schols'), []);
+  const [weights, setWeights] = useLocalStorage(getUserKey(userId, 'weights'), {});
+  const [profile, setProfile] = useLocalStorage(getUserKey(userId, 'profile'), {
+    name: currentUser?.name || "Student", gpa: "", state: "", major: "", ecs: "", awards: "", essays: []
   });
 
   useEffect(() => {
     setTimeout(() => setReady(true), 50);
   }, []);
+
+  useEffect(() => {
+    if (currentUser?.name) {
+      setProfile(p => ({ ...p, name: currentUser.name }));
+    }
+  }, [currentUser?.name, setProfile]);
 
   const formatUSD = useCallback((v) => 
     (!v || isNaN(v)) ? "$0" : "$" + Number(v).toLocaleString(), 
@@ -87,7 +98,6 @@ export const AppProvider = ({ children }) => {
     return Math.round((done / total) * 100);
   }, [schools, profile.essays, schols]);
 
-  // Context object for AI calls
   const ctx = useMemo(() => ({
     profile: { gpa: profile.gpa, major: profile.major, state: profile.state },
     schools: schools.map(s => ({ name: s.name, status: s.status, score: calcScore(s), net: getFinCalc(s, schols).net })),
@@ -101,7 +111,6 @@ export const AppProvider = ({ children }) => {
     COLORS, CRITERIA 
   };
 
-  // Expose setSchools globally for child components
   if (typeof window !== 'undefined') {
     window.__appContext = { setSchools };
   }
