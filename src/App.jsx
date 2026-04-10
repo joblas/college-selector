@@ -88,7 +88,7 @@ export default function App({ currentUser, onLogout }) {
             <Button 
               id="tour-advisor" 
               variant={showAI ? "primary" : "secondary"} 
-              onClick={() => { console.log('Header AI button clicked'); setShowAI(!showAI); }}
+              onClick={() => setShowAI(!showAI)}
               style={{ 
                 height: "36px", padding: "0 12px", borderRadius: "20px",
                 gap: "4px", fontSize: "12px", fontWeight: "600", whiteSpace: "nowrap"
