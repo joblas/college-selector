@@ -4,7 +4,7 @@ import { CRITERIA, FIN, COLORS } from '../utils/constants';
 import { AppContext } from '../context/AppContextInstance';
 
 export const AppProvider = ({ children }) => {
-  const [ready, setReady] = useState(true);
+  const [ready, setReady] = useState(false);
   const [schools, setSchools] = useLocalStorage('college_schools', []);
   const [schols, setSchols] = useLocalStorage('college_schols', []);
   const [weights, setWeights] = useLocalStorage('college_weights', {});
@@ -13,8 +13,7 @@ export const AppProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    // Mark as ready after initial render
-    setTimeout(() => setReady(true), 100);
+    setTimeout(() => setReady(true), 50);
   }, []);
 
   const formatUSD = useCallback((v) => 
