@@ -3,7 +3,7 @@ import { useAppContext } from '../hooks/useAppContext';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { ScoreRing } from '../components/Specialized';
-import { CheckCircle, DollarSign, Clock, Sparkles, Trophy, Target, BookOpen, Award, Rocket, Star } from 'lucide-react';
+import { CheckCircle, DollarSign, Clock, Sparkles, Trophy, Target, BookOpen, Award, Rocket, Star, Lightbulb } from 'lucide-react';
 
 const STEPS = [
   { id: 1, icon: Target, title: 'Add Schools', desc: 'Find your dream colleges', key: 'schools' },

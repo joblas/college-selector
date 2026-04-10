@@ -21,6 +21,18 @@ export default function AddSchoolForm({ onClose }) {
     };
     setSchools(p => [...p, newSchool]);
     celebrateQuick();
+    
+    // Sync to Mempalace (fails silently if API not available)
+    fetch('http://localhost:8765/knowledge/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: newSchool.name,
+        predicate: 'added_to',
+        object: 'college_list'
+      })
+    }).catch(() => {});
+    
     onClose();
   }
 

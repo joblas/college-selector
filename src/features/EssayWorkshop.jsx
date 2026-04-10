@@ -26,6 +26,17 @@ export default function EssayWorkshop() {
     setEssays(p => [...p, e]);
     setSelected(e);
     setNewTitle("");
+    
+    // Sync to Mempalace
+    fetch('http://localhost:8765/knowledge/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: newTitle,
+        predicate: 'created_in',
+        object: 'essay_workshop'
+      })
+    }).catch(() => {});
   };
 
   const updateEssay = (id, updates) => {

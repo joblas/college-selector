@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useAppContext } from './hooks/useAppContext';
 import { 
   Home, User, PenLine, Target, Bot, 
-  Plus, GraduationCap
+  Plus, GraduationCap, Search
 } from 'lucide-react';
 import { Button } from './components/Button';
 import { Modal } from './components/Modal';
+import { KnowledgeSearch } from './components/KnowledgeSearch';
+import { Recommendations } from './components/Recommendations';
 
 // Import features
 import Dashboard from './features/Dashboard';
@@ -31,6 +33,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [selSchool, setSelSchool] = useState(null);
   const [showAI, setShowAI] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showRecs, setShowRecs] = useState(false);
   const [modal, setModal] = useState(null);
   const [_headerExpanded] = useState(true);
 
@@ -105,6 +109,12 @@ export default function App() {
               </div>
               <Button id="tour-add-school" onClick={() => setModal("addSchool")}>
                 <Plus size={18} /> Add School
+              </Button>
+              <Button variant="secondary" onClick={() => setShowSearch(true)}>
+                <Search size={18} /> Search
+              </Button>
+              <Button variant="secondary" onClick={() => setShowRecs(true)}>
+                <Sparkles size={18} /> For You
               </Button>
             </div>
           </div>
@@ -253,6 +263,17 @@ export default function App() {
         >
           <AddSchoolForm onClose={() => setModal(null)} />
         </Modal>
+      )}
+
+      {showSearch && (
+        <KnowledgeSearch 
+          onClose={() => setShowSearch(false)} 
+          onSelectSchool={(s) => { setSelSchool(s); setShowSearch(false); }}
+        />
+      )}
+
+      {showRecs && (
+        <Recommendations onClose={() => setShowRecs(false)} />
       )}
     </div>
   );
