@@ -1,15 +1,21 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { CRITERIA, FIN, COLORS } from '../utils/constants';
 import { AppContext } from '../context/AppContextInstance';
 
 export const AppProvider = ({ children }) => {
+  const [ready, setReady] = useState(true);
   const [schools, setSchools] = useLocalStorage('college_schools', []);
   const [schols, setSchols] = useLocalStorage('college_schols', []);
   const [weights, setWeights] = useLocalStorage('college_weights', {});
   const [profile, setProfile] = useLocalStorage('college_profile', {
     name: "Kaylani", gpa: "", state: "", major: "", ecs: "", awards: "", essays: []
   });
+
+  useEffect(() => {
+    // Mark as ready after initial render
+    setTimeout(() => setReady(true), 100);
+  }, []);
 
   const formatUSD = useCallback((v) => 
     (!v || isNaN(v)) ? "$0" : "$" + Number(v).toLocaleString(), 
@@ -82,7 +88,7 @@ export const AppProvider = ({ children }) => {
     return Math.round((done / total) * 100);
   }, [schools, profile.essays, schols]);
 
-  const value = { schools, setSchools, schols, setSchols, weights, setWeights, profile, setProfile, formatUSD, getFinCalc, calcScore, nudges, globalProgress, COLORS, CRITERIA };
+  const value = { schools, setSchools, schols, setSchols, weights, setWeights, profile, setProfile, ready, formatUSD, getFinCalc, calcScore, nudges, globalProgress, COLORS, CRITERIA };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
